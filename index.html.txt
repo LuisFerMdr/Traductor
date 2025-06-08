@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traductor Automático Gratis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+    }
+    textarea, select, button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Traductor Automático Gratis</h1>
+  <p>Introduce tu texto y elige el idioma al que quieres traducir:</p>
+
+  <textarea id="textToTranslate" rows="5" placeholder="Escribe el texto aquí..."></textarea>
+  <select id="targetLang">
+    <option value="en">Inglés</option>
+    <option value="es">Español</option>
+    <option value="fr">Francés</option>
+    <option value="de">Alemán</option>
+    <option value="it">Italiano</option>
+    <option value="pt">Portugués</option>
+  </select>
+  <button onclick="translateText()">Traducir</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function translateText() {
+      const text = document.getElementById('textToTranslate').value;
+      const targetLang = document.getElementById('targetLang').value;
+
+      const res = await fetch('https://libretranslate.de/translate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          q: text,
+          source: 'auto',
+          target: targetLang,
+          format: 'text'
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById('result').innerText = data.translatedText;
+    }
+  </script>
+</body>
+</html>
